@@ -1,4 +1,5 @@
 // import Prompts/Questions object and methods
+const db = require('./db/connection');
 const DB_Questions = require("./lib/prompts");
 
 
@@ -81,17 +82,18 @@ const displayGoodBye = () => {
 };
 
 const startQuestions = () => {
-    DB_Questions()
-        .then(response => {
-            console.clear();
+    return DB_Questions()
 
-            if (response.primary != "Exit") startQuestions();
-            else displayGoodBye();
-        });
 };
 
 
 console.clear();
 displaySplashScreen();
 
-startQuestions();
+startQuestions()
+    .then(response => {
+        console.clear();
+
+        if (response.primary != "Exit") startQuestions();
+        else displayGoodBye();
+    });

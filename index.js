@@ -1,7 +1,7 @@
 // import Prompts/Questions object and methods
 const DB_Questions = require("./lib/prompts");
 
-let prompts = new DB_Questions();
+
 
 const displaySplashScreen = () => console.log(`
                      .,,uod8B8bou,,.
@@ -37,7 +37,7 @@ const displaySplashScreen = () => console.log(`
 `);
 
 const displayGoodBye = () => {
-    console.clear();
+
     console.log(`
                                      .,;;;;;;;,.
                                    ,;;;;;;;,/;;;;
@@ -48,11 +48,11 @@ const displayGoodBye = () => {
    .;;/,;;/;OO##OO#######################OOO####.
    ;;;/,;;//OO#######OOO###########OOO###########.          ██████╗  ██████╗  ██████╗ ██████╗     ██████╗ ██╗   ██╗███████╗██╗
    \`;;//,;,OOO#########OO#########OO##############.        ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗    ██╔══██╗╚██╗ ██╔╝██╔════╝██║
-  ;.  \`\`\`\`\`\`OOO#####;;;;;;OO#####OO;;;;;;######O####.      ██║  ███╗██║   ██║██║   ██║██║  ██║    ██████╔╝ ╚████╔╝ █████╗  ██║
+  ;. \`\`\`\`\`\`OOO#####;;;;;;OO#####OO;;;;;;######O####.       ██║  ███╗██║   ██║██║   ██║██║  ██║    ██████╔╝ ╚████╔╝ █████╗  ██║
 .;;,       OOO###O;;' ~\`;##OOOOO##;' ~\`;;O#####OO###       ██║   ██║██║   ██║██║   ██║██║  ██║    ██╔══██╗  ╚██╔╝  ██╔══╝  ╚═╝
 ;;;;    ,  OOO##O;;;,.,;O#########O;,.,;;;O####OO###,      ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝    ██████╔╝   ██║   ███████╗██╗
 \`;;'   ,;; OOO##OO;;;;OOO(???????)OOO;;;;OO####OO###%,      ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝     ╚═════╝    ╚═╝   ╚══════╝╚═╝
-   \`\\   ;;; \`OOO#####OOOO##\?????/##OOOO#######O####%O@a   
+   \`\\  ;;; \`OOO#####OOOO##\?????/##OOOO#######O####%O@a   
      \,\`;'  \`OOO####OOO######;######OOO###########%O###,    
      .,\\      \`OO####OO"#####;#####"OO##########%oO###O#;   
    ,;;;; \\   .::::OO##OOOaaa###aaaOOO#######',;OO##OOO##;,                                                                                              
@@ -81,29 +81,17 @@ const displayGoodBye = () => {
 };
 
 const startQuestions = () => {
-    prompts.primaryQuestion()
+    DB_Questions()
         .then(response => {
+            console.clear();
 
-            switch (response.primary.toLowerCase()) {
-                case 'exit':
-                    displayGoodBye();
-                    break;
-
-                default:
-                    console.log(`Error: "${response.primary}" not recognized!`);
-            }
-
+            if (response.primary != "Exit") startQuestions();
+            else displayGoodBye();
         });
 };
 
-// function to initialize app
-const startApp = () => {
-    console.clear();
 
-    displaySplashScreen();
+console.clear();
+displaySplashScreen();
 
-    startQuestions();
-
-};
-
-startApp();
+startQuestions();

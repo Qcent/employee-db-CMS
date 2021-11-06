@@ -155,15 +155,33 @@ const mainLoop = () => {
             }
             //ADD to TABLES
             else if (response.primary.match(/Add/)) {
-                if (response.primary.match(/Department/)) query.logThis('Add Department');
-                else if (response.primary.match(/Role/)) query.logThis('Add Role');
-                else if (response.primary.match(/Employee/)) query.logThis('Add Employee');
+                if (response.primary.match(/Department/)) {
+                    query.addDepartment(db, response.departmentName).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                } else if (response.primary.match(/Role/)) {
+                    query.addRole(db, response).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                } else if (response.primary.match(/Employee/)) {
+                    query.addEmployee(db, response).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                }
             }
             //UPDATE TABLES
             else if (response.primary.match(/Update/)) {
                 if (response.primary.match(/Department/));
-                else if (response.primary.match(/Role/));
-                else if (response.primary.match(/Employee/)) query.logThis('Update Employee');
+                //else if (response.primary.match(/Role/));
+                else if (response.primary.match(/Employee/)) {
+                    query.updateEmployeeRole(db, { roleID: 5, employeeID: 10 }).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                }
             }
 
             if (response.primary === "Exit") {

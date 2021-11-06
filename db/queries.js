@@ -5,6 +5,7 @@ module.exports = {
         return;
     },
 
+    // VIEW QUERIES
     viewDepartments: (db) => {
         return new Promise((res, rej) => {
             db.query('SELECT * FROM department', (err, rows) => {
@@ -62,6 +63,60 @@ module.exports = {
                     rej(err.message);
                 }
                 console.log('NEW DATA BELOW');
+                res(console.log(rows));
+            });
+        });
+    },
+
+    // ADD QUERIES
+    addDepartment: (db, departmentName) => {
+        return new Promise((res, rej) => {
+            const sql = `INSERT INTO department (name) VALUES (?)`;
+            db.query(sql, departmentName, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(console.log(rows));
+            });
+        });
+    },
+
+    addRole: (db, data) => {
+        return new Promise((res, rej) => {
+            const params = [data.roleName, data.roleSalary, data.roleDepartment];
+            const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
+            db.query(sql, params, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(console.log(rows));
+            });
+        });
+    },
+
+    addEmployee: (db, data) => {
+        return new Promise((res, rej) => {
+            const params = [data.employeeFirstName, data.employeeLastName, data.employeeRole, data.employeeManager || null];
+            const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+            db.query(sql, params, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(console.log(rows));
+            });
+        });
+    },
+
+    // UPDATE QUERIES
+    updateEmployeeRole: (db, data) => {
+        const params = [data.roleID, data.employeeID];
+        console.log("test");
+        return new Promise((res, rej) => {
+            const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+            db.query(sql, params, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
                 res(console.log(rows));
             });
         });

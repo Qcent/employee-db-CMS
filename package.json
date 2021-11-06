@@ -1,24 +1,25 @@
 {
-  "name": "employee-db-CSM",
-  "version": "1.0.0",
-  "description": "A command-line application for managing a company employee database. Written for Node.js.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Qcent/employee-db-CSM.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Qcent/employee-db-CSM/issues"
-  },
-  "homepage": "https://github.com/Qcent/employee-db-CSM#readme",
-  "dependencies": {
-    "inquirer": "^8.2.0",
-    "mysql2": "^2.3.3-rc.0"
-  }
+    "name": "employee-db-CSM",
+    "version": "1.0.0",
+    "description": "A command-line application for managing a company employee database. Written for Node.js.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Qcent/employee-db-CSM.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Qcent/employee-db-CSM/issues"
+    },
+    "homepage": "https://github.com/Qcent/employee-db-CSM#readme",
+    "dependencies": {
+        "inquirer": "^8.2.0",
+        "mysql2": "^2.3.3-rc.0"
+    }
 }

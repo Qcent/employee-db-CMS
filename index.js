@@ -136,9 +136,22 @@ const mainLoop = () => {
 
             //VIEW TABLES
             if (response.primary.match(/View/)) {
-                if (response.primary.match(/Department/)) query.viewDepartments(db).then(() => mainLoop());
-                else if (response.primary.match(/Role/)) query.viewRoles(db).then(() => mainLoop());
-                else if (response.primary.match(/Employee/)) query.viewEmployees(db).then(() => mainLoop());
+                if (response.primary.match(/Department/)) {
+                    query.viewDepartments(db).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                } else if (response.primary.match(/Role/)) {
+                    query.viewRoles(db).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                } else if (response.primary.match(/Employee/)) {
+                    query.viewEmployees(db).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                }
             }
             //ADD to TABLES
             else if (response.primary.match(/Add/)) {

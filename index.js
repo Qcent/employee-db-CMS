@@ -5,6 +5,8 @@ const askQuestions = require("./lib/prompts");
 // import database query methods
 const query = require("./db/queries");
 
+let employeeList = [];
+
 // function to console.log the landing page
 const displaySplashScreen = () => console.log(`
                      .,,uod8B8bou,,.
@@ -130,9 +132,19 @@ const makeConnection = () => {
 };
 
 const mainLoop = () => {
-    askQuestions()
+    query.getListOfEmployees(db)
+        .then(eList => {
+            employeeList = [];
+            // create an employee list for inquirer choices
+            eList.forEach((obj, idx) => {
+                employeeList.push({ name: obj.full_name, value: idx + 1 });
+            });
+
+        })
+        .then(() => askQuestions(employeeList))
         .then(response => {
             console.clear();
+            //console.log(employeeList)
 
             //VIEW TABLES
             if (response.primary.match(/View/)) {
@@ -177,7 +189,7 @@ const mainLoop = () => {
                 if (response.primary.match(/Department/));
                 //else if (response.primary.match(/Role/));
                 else if (response.primary.match(/Employee/)) {
-                    query.updateEmployeeRole(db, { roleID: 5, employeeID: 10 }).then(() => mainLoop()).catch((err) => {
+                    query.updateEmployeeRole(db, response).then(() => mainLoop()).catch((err) => {
                         console.log(err);
                         process.exit();
                     });
@@ -196,4 +208,7 @@ displaySplashScreen();
 
 makeConnection()
     .then(() => mainLoop())
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err)
+        process.exit();
+    });

@@ -1,3 +1,5 @@
+let employeeList = [];
+
 module.exports = {
 
     logThis: (str) => {
@@ -62,7 +64,6 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                console.log('NEW DATA BELOW');
                 res(console.log(rows));
             });
         });
@@ -109,10 +110,38 @@ module.exports = {
 
     // UPDATE QUERIES
     updateEmployeeRole: (db, data) => {
-        const params = [data.roleID, data.employeeID];
-        console.log("test");
+        let count = 0;
+        let sql = `UPDATE employee SET ` //role_id = ? WHERE id = ?`;
+        const params = [];
+
+        if (data.firstName) {
+            sql += `first_name = ?`;
+            params.push(data.firstName);
+            count++;
+        }
+        if (data.lasttName) {
+            if (count > 0) sql += ', ';
+            sql += `last_name = ?`;
+            params.push(data.lastName);
+            count++;
+        }
+        if (data.roleID) {
+            if (count > 0) sql += ', ';
+            sql += `role_id = ?`;
+            params.push(data.roleID);
+            count++;
+        }
+        if (typeof data.managerID !== 'undefined') {
+            if (count > 0) sql += ', ';
+            sql += `manager_id = ?`;
+            params.push(data.managerID || null);
+        }
+
+        params.push(data.employeeID)
+        sql += ` WHERE id = ?`;
+
         return new Promise((res, rej) => {
-            const sql = `UPDATE employee SET role_id = ? WHERE id = ?`;
+
             db.query(sql, params, (err, rows) => {
                 if (err) {
                     rej(err.message);
@@ -121,4 +150,29 @@ module.exports = {
             });
         });
     },
+
+
+    /* SPECIAL METHODS */
+
+    getListOfEmployees: (db) => {
+
+        return new Promise((res, rej) => {
+            const sql = `
+            SELECT  CONCAT_WS(" ", e.first_name, e.last_name) AS full_name
+           
+            FROM employee e
+
+            ORDER BY e.id
+            `;
+
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(rows);
+            });
+        });
+
+    },
+
 }

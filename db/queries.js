@@ -202,6 +202,23 @@ module.exports = {
         });
     },
 
+    // DELETE QUERY
+    deleteRow: (db, data) => {
+        //get table name
+        const table = data.primary.split('Delete ')[1].toLowerCase();
+        // set id variable name to be referenced in data object
+        const id = table + "ID";
+        const sql = `DELETE FROM ${table} WHERE id = ${data[id]}`;
+
+        return new Promise((res, rej) => {
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(console.log(rows));
+            });
+        });
+    },
 
     /* SPECIAL METHODS */
 

@@ -221,6 +221,14 @@ const mainLoop = () => {
                     });
                 }
             }
+            //DELETE TABLE ROWS
+            else if (response.primary.match(/Delete/)) {
+                query.deleteRow(db, response).then(() => mainLoop()).catch((err) => {
+                    console.log(err);
+                    process.exit();
+                });
+            }
+
 
             if (response.primary === "Exit") {
                 displayGoodBye();

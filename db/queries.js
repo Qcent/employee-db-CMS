@@ -1,4 +1,4 @@
-let employeeList = [];
+const cTable = require('console.table');
 
 module.exports = {
     // VIEW QUERIES
@@ -8,7 +8,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.table(rows));
             });
         });
     },
@@ -25,7 +25,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.table(rows));
             });
         });
     },
@@ -58,7 +58,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.table(rows));
             });
         });
     },
@@ -71,7 +71,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.log(`\n\tNew Department: ${departmentName} - CREATED\n`));
             });
         });
     },
@@ -84,7 +84,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.log(`\n\tNew Role: ${data.roleName} - CREATED\n`));
             });
         });
     },
@@ -97,7 +97,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.log(`New Employee: ${data.employeeFirstName} ${data.employeeLastName} - CREATED\n`));
             });
         });
     },
@@ -140,7 +140,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.log(`\n\tEmployee: ${data.employeeID} - UPDATED\n`));
             });
         });
     },
@@ -176,7 +176,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.log(`\n\tRole: ${data.roleID} - UPDATED\n`));
             });
         });
     },
@@ -191,7 +191,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.log(`\n\tDepartment: ${data.departmentID} - UPDATED\n`));
             });
         });
     },
@@ -209,7 +209,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(rows));
+                res(console.log(`\n\tTABLE ${table} : ROW ${data[id]} - DELETED\n`));
             });
         });
     },

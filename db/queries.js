@@ -219,8 +219,10 @@ module.exports = {
     getListOfEmployees: (db) => {
         return new Promise((res, rej) => {
             const sql = `
-            SELECT  e.id, CONCAT_WS(" ", e.first_name, e.last_name) AS full_name
+            SELECT  e.id, CONCAT_WS(" ", e.first_name, e.last_name) AS full_name , role.title AS job
             FROM employee e
+            LEFT JOIN role 
+                ON e.role_id = role.id
             ORDER BY e.id
             `;
 

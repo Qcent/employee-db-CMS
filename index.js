@@ -8,6 +8,7 @@ const query = require("./db/queries");
 // define empty lists of departments/roles/employees
 // to use in inquirer prompts
 let employeeList = [];
+let managerList = [];
 let roleList = [];
 let departmentList = [];
 
@@ -143,8 +144,16 @@ const mainLoop = () => {
             employeeList = [];
             // create an employee list for inquirer choices
             eList.forEach(obj => {
-                employeeList.push({ name: obj.full_name, value: obj.id });
+                employeeList.push({ name: obj.full_name, value: obj.id, job: obj.job });
             });
+            // create a manager list rom
+            managerList = employeeList.filter(worker => {
+                if (worker.job) {
+                    if (worker.job.match(/manager/i)) return true;
+                };
+                return false;
+            });
+            // console.log(managerList);
         })
         .then(() => query.getListOfRoles(db))
         .then((rList) => {
@@ -164,7 +173,7 @@ const mainLoop = () => {
         })
         /* END OF LIST GETTING */
 
-    .then(() => askQuestions(employeeList, roleList, departmentList))
+    .then(() => askQuestions(employeeList, roleList, departmentList, managerList))
         .then(response => {
             console.clear();
 

@@ -153,7 +153,7 @@ const mainLoop = () => {
                 };
                 return false;
             });
-            // console.log(managerList);
+            managerList.push({ name: "(None)", value: null, job: null })
         })
         .then(() => query.getListOfRoles(db))
         .then((rList) => {

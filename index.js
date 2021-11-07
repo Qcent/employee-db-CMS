@@ -46,8 +46,7 @@ const displaySplashScreen = () => console.log(`
                     \`!^"'
 `);
 // function to console.log the succesfull connection to the mysql databse
-const displayConnected = () => new Promise((res, rej) => {
-    res(console.log(`
+const displayConnected = () => console.log(`
                      .,,uod8B8bou,,.
              ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.
          ,=m8BBBBBBBBBBBBBBBRPFT?!||||||||||||||
@@ -78,8 +77,8 @@ const displayConnected = () => new Promise((res, rej) => {
                 \`!988888888899fT|!^"'
                   \`!9899fT|!^"'
                     \`!^"'
-`));
-});
+`);
+
 // function that console.logs the exit screen
 const displayGoodBye = () => {
 
@@ -179,7 +178,7 @@ const mainLoop = () => {
 
             //VIEW TABLES
             if (response.primary.match(/View/)) {
-                if (response.primary.match(/Department/)) {
+                if (response.primary.match(/Departments/)) {
                     query.viewDepartments(db).then(() => mainLoop()).catch((err) => {
                         console.log(err);
                         process.exit();
@@ -190,10 +189,22 @@ const mainLoop = () => {
                         process.exit();
                     });
                 } else if (response.primary.match(/Employee/)) {
-                    query.viewEmployees(db).then(() => mainLoop()).catch((err) => {
-                        console.log(err);
-                        process.exit();
-                    });
+                    if (response.primary.match(/Manager/)) {
+                        query.viewEmployeesByManager(db, response.managerID).then(() => mainLoop()).catch((err) => {
+                            console.log(err);
+                            process.exit();
+                        });
+                    } else if (response.primary.match(/Department/)) {
+                        query.viewEmployeesByDepartment(db, response.departmentID).then(() => mainLoop()).catch((err) => {
+                            console.log(err);
+                            process.exit();
+                        });
+                    } else {
+                        query.viewEmployees(db).then(() => mainLoop()).catch((err) => {
+                            console.log(err);
+                            process.exit();
+                        });
+                    }
                 }
             }
             //ADD to TABLES

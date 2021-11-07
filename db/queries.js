@@ -63,6 +63,65 @@ module.exports = {
         });
     },
 
+    viewEmployeesByManager: (db, managerID) => {
+        return new Promise((res, rej) => {
+            const sql = `
+            SELECT e.id, e.first_name, e.last_name, role.title AS job_title, department.name AS department,  role.salary, 
+            CONCAT_WS(" ", manager.first_name, manager.last_name) AS manager
+
+            FROM employee e
+
+            JOIN role ON e.role_id = role.id
+            JOIN department ON role.department_id  = department.id 
+            JOIN employee manager ON e.manager_id = manager.id
+            WHERE e.manager_id = ${managerID}
+            `;
+
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(console.table("Employees Managed by " + rows[0].manager, rows));
+            });
+        });
+    },
+
+    viewEmployeesByDepartment: (db, departmentID) => {
+        console.log("BY Department")
+        return new Promise((res, rej) => {
+            const sql = `
+            SELECT  e.id, 
+            e.first_name, 
+            e.last_name, 
+            role.title AS job_title, 
+            department.name AS department,
+            role.salary, 
+            IF( e.manager_id , CONCAT_WS(" ", manager.first_name, manager.last_name), e.manager_id ) AS manager
+           
+            FROM employee e
+
+            LEFT JOIN role 
+                ON e.role_id = role.id
+            LEFT JOIN department 
+                ON role.department_id  = department.id 
+                AND role.department_id = '${departmentID}'
+            LEFT JOIN employee manager
+                ON e.manager_id = manager.id
+                OR e.manager_id = null
+                
+
+            ORDER BY e.id
+            `;
+
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(console.table(rows));
+            });
+        });
+    },
+
     // ADD QUERIES
     addDepartment: (db, departmentName) => {
         return new Promise((res, rej) => {

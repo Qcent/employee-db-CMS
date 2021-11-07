@@ -1,5 +1,5 @@
-DROP DATABASE IF EXISTS employeeManagment;
-CREATE DATABASE employeeManagment;
-USE employeeManagment;
+DROP DATABASE IF EXISTS employeeManagement;
+CREATE DATABASE employeeManagement;
+USE employeeManagement;
 
 SOURCE db/schema.sql

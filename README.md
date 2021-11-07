@@ -18,19 +18,27 @@ Manage your Employee Database with this handy CLI program written for Node.js.
 
 ## Installation
 
-This program requires that the end user already has `Node.js` and `MySQL` set up and running on their system.  
- Copy the repository files by running `git clone git@github.com:Qcent/employee-db-CSM.git`  
+This program requires that the end user already has [`Node.js`](https://nodejs.org/en/) and [`MySQL`](https://www.mysql.com/) set up and running on their system.  
+ Copy the repository files by running `git clone git@github.com:Qcent/employee-db-CMS.git`  
  Before you first run the program you will have to set up the database by connecting to your MySQL server and typing `source db/db.sql`  
- If you would like to load some mock data to the database type `source db/seeds.sql` 
+ If you would like to load some mock data into the database type `source db/seeds.sql` 
 
 ## Usage
 
-Once finished with the initial setup mearly type `node index.js` or `npm start` to run the application.  
- You will be greated by the landing screen while the app connects to the MySQL server then presented with a list of option to choose from. ![Landing Screen](./assets/images/app-screenshot-1.png)   
+Once finished with the initial setup merely type `node index.js` or `npm start` to run the application.  
+ You will be greeted by the landing screen while, the app connects to the MySQL server, then presented with a list of option to choose from. 
+ ![Landing Screen](./assets/images/app-screenshot-1.png)   
  Follow the on screen prompts to View / Create / Edit or Delete: Departments, Roles and Employees from your company database. 
 
 ## Credits
-Big thanks goes out to the Hard Coding Developers responsible for the npm packages `Inquirer` and `MySQL2`, for making this and many other projects possible. I'd also like to extend my warm and heartfelt appriciation to Eric the TA. Whose paient soul and mindful eye helped reveal my broken logic and set me back on the path to glory! 
+Big thanks goes out to the Hard Coding Developers responsible for the npm packages `Inquirer` and `MySQL2`, for making this and many other projects possible. I'd also like to extend my warm and heartfelt appreciation to Eric the TA. Whose patient soul and mindful eye helped reveal my broken logic and set me back on the path to glory! 
+
+A T-pose and a tip of the hat are in order for [DanCRichards](https://github.com/DanCRichards) for providing his Computer themed ASCII art at https://github.com/DanCRichards/ASCII-Art-Splash-Screen.
+
+As well as [Scarecrow](https://www.incredibleart.org/links/ascii/ScarecrowGifGalle.html) and his ASCII GIF gallery
+
+Let's not forget the ASCII font man, [Pat Gillespie](http://patorjk.com/) and his amazing [ASCII font generating tool](https://patorjk.com/software/taag/)
+
 
 ## Questions
 

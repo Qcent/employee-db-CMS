@@ -18,7 +18,8 @@ module.exports = {
             const sql = `SELECT role.id, role.title, CONCAT('$', FORMAT(role.salary,0)) AS salary, department.name AS department
             FROM role 
             LEFT JOIN department 
-            ON role.department_id = department.id`;
+            ON role.department_id = department.id
+            ORDER BY role.department_id`;
 
             db.query(sql, (err, rows) => {
                 if (err) {
@@ -95,17 +96,16 @@ module.exports = {
             const sql = `
             SELECT e.id, e.first_name, e.last_name, role.title AS job_title, department.name AS department,  CONCAT('$', FORMAT(role.salary,0)) AS salary, 
             IF( e.manager_id , CONCAT_WS(" ", manager.first_name, manager.last_name), e.manager_id ) AS manager
-
             FROM employee e
-
             JOIN role ON e.role_id = role.id
             JOIN department ON role.department_id  = department.id 
             LEFT JOIN employee manager ON e.manager_id = manager.id OR e.manager_id = null
             WHERE role.department_id = ${departmentID}
             
             UNION ALL
-            SELECT ' ' id, ' ' first_name, ' ' last_name,  ' ' job_title, 'Total Budget' department, CONCAT('$', FORMAT(SUM(salary),0)), ' ' manager
-            FROM role
+            SELECT ' ' id, ' ' first_name, ' ' last_name,  ' ' job_title, 'Total Budget:' department, CONCAT('$', FORMAT(SUM(role.salary),0)), ' ' manager
+            FROM employee e
+            JOIN role ON e.role_id = role.id
             WHERE role.department_id = ${departmentID}
             `;
 
@@ -160,7 +160,7 @@ module.exports = {
     // UPDATE QUERIES
     updateEmployee: (db, data) => {
         let count = 0;
-        let sql = `UPDATE employee SET ` //role_id = ? WHERE id = ?`;
+        let sql = `UPDATE employee SET `;
         const params = [];
 
         if (data.firstName) {
@@ -202,7 +202,7 @@ module.exports = {
 
     updateRole: (db, data) => {
         let count = 0;
-        let sql = `UPDATE role SET ` //role_id = ? WHERE id = ?`;
+        let sql = `UPDATE role SET `;
         const params = [];
 
         if (data.roleTitle) {

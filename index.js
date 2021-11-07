@@ -142,24 +142,24 @@ const mainLoop = () => {
         .then(eList => {
             employeeList = [];
             // create an employee list for inquirer choices
-            eList.forEach((obj, idx) => {
-                employeeList.push({ name: obj.full_name, value: idx + 1 });
+            eList.forEach(obj => {
+                employeeList.push({ name: obj.full_name, value: obj.id });
             });
         })
         .then(() => query.getListOfRoles(db))
         .then((rList) => {
             roleList = [];
             // create a role list for inquirer choices
-            rList.forEach((obj, idx) => {
-                roleList.push({ name: obj.title + " : " + obj.department, value: idx + 1 });
+            rList.forEach(obj => {
+                roleList.push({ name: obj.title + " : " + obj.department, value: obj.id });
             });
         })
         .then(() => query.getListOfDepartments(db))
         .then((dList) => {
             departmentList = [];
             // create a department list for inquirer choices
-            dList.forEach((obj, idx) => {
-                departmentList.push({ name: obj.name, value: idx + 1 });
+            dList.forEach(obj => {
+                departmentList.push({ name: obj.name, value: obj.id });
             });
         })
         /* END OF LIST GETTING */

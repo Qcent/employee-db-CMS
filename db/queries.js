@@ -43,9 +43,9 @@ module.exports = {
            
             FROM employee e
 
-            JOIN role 
+            LEFT JOIN role 
                 ON e.role_id = role.id
-            JOIN department 
+            LEFT JOIN department 
                 ON role.department_id  = department.id  
             LEFT JOIN employee manager
                 ON e.manager_id = manager.id
@@ -219,7 +219,7 @@ module.exports = {
     getListOfEmployees: (db) => {
         return new Promise((res, rej) => {
             const sql = `
-            SELECT  CONCAT_WS(" ", e.first_name, e.last_name) AS full_name
+            SELECT  e.id, CONCAT_WS(" ", e.first_name, e.last_name) AS full_name
             FROM employee e
             ORDER BY e.id
             `;
@@ -237,7 +237,7 @@ module.exports = {
     getListOfRoles: (db) => {
         return new Promise((res, rej) => {
             const sql = `
-            SELECT role.title, department.name AS department
+            SELECT role.id, role.title, department.name AS department
             FROM role
             LEFT JOIN department 
             ON role.department_id = department.id
@@ -257,7 +257,7 @@ module.exports = {
     getListOfDepartments: (db) => {
         return new Promise((res, rej) => {
             const sql = `
-            SELECT department.name
+            SELECT department.id, department.name
             FROM department
             ORDER BY department.id
             `;

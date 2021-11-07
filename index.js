@@ -4,8 +4,11 @@ const db = require('./db/connection');
 const askQuestions = require("./lib/prompts");
 // import database query methods
 const query = require("./db/queries");
+const { getListOfRoles } = require('./db/queries');
 
 let employeeList = [];
+let roleList = [];
+let departmentList = [];
 
 // function to console.log the landing page
 const displaySplashScreen = () => console.log(`
@@ -139,9 +142,24 @@ const mainLoop = () => {
             eList.forEach((obj, idx) => {
                 employeeList.push({ name: obj.full_name, value: idx + 1 });
             });
-
         })
-        .then(() => askQuestions(employeeList))
+        .then(() => query.getListOfRoles(db))
+        .then((rList) => {
+            roleList = [];
+            // create a role list for inquirer choices
+            rList.forEach((obj, idx) => {
+                roleList.push({ name: obj.title + " : " + obj.department, value: idx + 1 });
+            });
+        })
+        .then(() => query.getListOfDepartments(db))
+        .then((dList) => {
+            departmentList = [];
+            // create a department list for inquirer choices
+            dList.forEach((obj, idx) => {
+                departmentList.push({ name: obj.name, value: idx + 1 });
+            });
+        })
+        .then(() => askQuestions(employeeList, roleList, departmentList))
         .then(response => {
             console.clear();
             //console.log(employeeList)
@@ -187,9 +205,13 @@ const mainLoop = () => {
             //UPDATE TABLES
             else if (response.primary.match(/Update/)) {
                 if (response.primary.match(/Department/));
-                //else if (response.primary.match(/Role/));
-                else if (response.primary.match(/Employee/)) {
-                    query.updateEmployeeRole(db, response).then(() => mainLoop()).catch((err) => {
+                else if (response.primary.match(/Role/)) {
+                    query.updateRole(db, response).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                } else if (response.primary.match(/Employee/)) {
+                    query.updateEmployee(db, response).then(() => mainLoop()).catch((err) => {
                         console.log(err);
                         process.exit();
                     });

@@ -109,7 +109,7 @@ module.exports = {
     },
 
     // UPDATE QUERIES
-    updateEmployeeRole: (db, data) => {
+    updateEmployee: (db, data) => {
         let count = 0;
         let sql = `UPDATE employee SET ` //role_id = ? WHERE id = ?`;
         const params = [];
@@ -151,18 +151,89 @@ module.exports = {
         });
     },
 
+    updateRole: (db, data) => {
+        let count = 0;
+        let sql = `UPDATE role SET ` //role_id = ? WHERE id = ?`;
+        const params = [];
+
+        if (data.roleTitle) {
+            sql += `title = ?`;
+            params.push(data.roleTitle);
+            count++;
+        }
+        if (data.roleSalary) {
+            if (count > 0) sql += ', ';
+            sql += `salary = ?`;
+            params.push(data.roleSalary);
+            count++;
+        }
+        if (data.roleDepartment) {
+            if (count > 0) sql += ', ';
+            sql += `department_id = ?`;
+            params.push(data.roleDepartment);
+        }
+
+        params.push(data.roleID)
+        sql += ` WHERE id = ?`;
+
+        return new Promise((res, rej) => {
+
+            db.query(sql, params, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(console.log(rows));
+            });
+        });
+    },
+
 
     /* SPECIAL METHODS */
 
     getListOfEmployees: (db) => {
-
         return new Promise((res, rej) => {
             const sql = `
             SELECT  CONCAT_WS(" ", e.first_name, e.last_name) AS full_name
-           
             FROM employee e
-
             ORDER BY e.id
+            `;
+
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(rows);
+            });
+        });
+
+    },
+
+    getListOfRoles: (db) => {
+        return new Promise((res, rej) => {
+            const sql = `
+            SELECT role.title, department.name AS department
+            FROM role
+            LEFT JOIN department 
+            ON role.department_id = department.id
+            ORDER BY role.id
+            `;
+
+            db.query(sql, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(rows);
+            });
+        });
+
+    },
+
+    getListOfDepartments: (db) => {
+        return new Promise((res, rej) => {
+            const sql = `
+            SELECT department.name
+            FROM department
+            ORDER BY department.id
             `;
 
             db.query(sql, (err, rows) => {

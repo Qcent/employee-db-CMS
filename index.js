@@ -79,7 +79,7 @@ const displayConnected = () => new Promise((res, rej) => {
                     \`!^"'
 `));
 });
-
+// function that console.logs the exit screen
 const displayGoodBye = () => {
 
     console.log(`
@@ -123,7 +123,7 @@ const displayGoodBye = () => {
                     \
 `);
 };
-
+// a Promise that resolves when successfully connected to the database
 const makeConnection = () => {
     return new Promise((res, rej) => {
         db.connect(err => {
@@ -135,6 +135,7 @@ const makeConnection = () => {
     });
 };
 
+//the Main Loop that generates all table lists then prompts the user for functionality
 const mainLoop = () => {
     /* GET LISTS OF TABLES */
     query.getListOfEmployees(db)
@@ -166,7 +167,6 @@ const mainLoop = () => {
     .then(() => askQuestions(employeeList, roleList, departmentList))
         .then(response => {
             console.clear();
-            //console.log(employeeList)
 
             //VIEW TABLES
             if (response.primary.match(/View/)) {
@@ -232,7 +232,6 @@ const mainLoop = () => {
                     process.exit();
                 });
             }
-
 
             if (response.primary === "Exit") {
                 displayGoodBye();

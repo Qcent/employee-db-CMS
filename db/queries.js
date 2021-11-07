@@ -8,7 +8,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.table(rows));
+                res(console.table("Showing all Departments", rows));
             });
         });
     },
@@ -24,7 +24,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.table(rows));
+                res(console.table("Showing all Roles", rows));
             });
         });
     },
@@ -57,30 +57,35 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.table(rows));
+                res(console.table("Showing all Employees", rows));
             });
         });
     },
 
     viewEmployeesByManager: (db, managerID) => {
         return new Promise((res, rej) => {
-            const sql = `
+            let sql = `
             SELECT e.id, e.first_name, e.last_name, role.title AS job_title, department.name AS department,  CONCAT('$', FORMAT(role.salary,0)) AS salary, 
-            CONCAT_WS(" ", manager.first_name, manager.last_name) AS manager
+            IF( e.manager_id , CONCAT_WS(" ", manager.first_name, manager.last_name), e.manager_id ) AS manager
 
             FROM employee e
 
             JOIN role ON e.role_id = role.id
             JOIN department ON role.department_id  = department.id 
-            JOIN employee manager ON e.manager_id = manager.id
-            WHERE e.manager_id = ${managerID}
+            LEFT JOIN employee manager ON e.manager_id = manager.id OR e.manager_id = null
             `;
+
+            if (!managerID) sql += `WHERE e.manager_id IS NULL`;
+            else sql += `WHERE e.manager_id = ${managerID}`;
 
             db.query(sql, (err, rows) => {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.table("Employees Managed by " + rows[0].manager, rows));
+
+                if (rows[0].manager)
+                    res(console.table("Employees Managed by " + rows[0].manager, rows));
+                else res(console.table("Employees Managed by (Null)", rows));
             });
         });
     },

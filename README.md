@@ -1,5 +1,5 @@
 
-# Employee Management CSM
+# Employee Management CMS
  
  ![MIT](https://img.shields.io/badge/License-MIT-orange)  ![Node.js](https://img.shields.io/badge/Tech-Node.js-lightblue)  ![MySQL](https://img.shields.io/badge/Tech-MySQL-lightblue)  ![Inquirer](https://img.shields.io/badge/Tech-Inquirer-lightblue)  ![ASCII%20ART](https://img.shields.io/badge/Tech-ASCII%20ART-lightblue) 
 

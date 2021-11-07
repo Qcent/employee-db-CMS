@@ -4,8 +4,9 @@ const db = require('./db/connection');
 const askQuestions = require("./lib/prompts");
 // import database query methods
 const query = require("./db/queries");
-const { getListOfRoles } = require('./db/queries');
 
+// define empty lists of departments/roles/employees
+// to use in inquirer prompts
 let employeeList = [];
 let roleList = [];
 let departmentList = [];
@@ -135,6 +136,7 @@ const makeConnection = () => {
 };
 
 const mainLoop = () => {
+    /* GET LISTS OF TABLES */
     query.getListOfEmployees(db)
         .then(eList => {
             employeeList = [];
@@ -159,7 +161,9 @@ const mainLoop = () => {
                 departmentList.push({ name: obj.name, value: idx + 1 });
             });
         })
-        .then(() => askQuestions(employeeList, roleList, departmentList))
+        /* END OF LIST GETTING */
+
+    .then(() => askQuestions(employeeList, roleList, departmentList))
         .then(response => {
             console.clear();
             //console.log(employeeList)

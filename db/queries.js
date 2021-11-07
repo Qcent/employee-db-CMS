@@ -1,12 +1,6 @@
 let employeeList = [];
 
 module.exports = {
-
-    logThis: (str) => {
-        console.log(str);
-        return;
-    },
-
     // VIEW QUERIES
     viewDepartments: (db) => {
         return new Promise((res, rej) => {
@@ -220,7 +214,7 @@ module.exports = {
         });
     },
 
-    /* SPECIAL METHODS */
+    /* LIST METHODS */
 
     getListOfEmployees: (db) => {
         return new Promise((res, rej) => {

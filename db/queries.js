@@ -1,13 +1,12 @@
 const cTable = require('console.table');
+const box = require('ascii-box').box;
 
 module.exports = {
     // VIEW QUERIES
     viewDepartments: (db) => {
         return new Promise((res, rej) => {
             db.query('SELECT * FROM department', (err, rows) => {
-                if (err) {
-                    rej(err.message);
-                }
+                if (err) { rej(err.message); }
                 res(console.table("Showing all Departments", rows));
             });
         });
@@ -168,7 +167,7 @@ module.exports = {
             params.push(data.firstName);
             count++;
         }
-        if (data.lasttName) {
+        if (data.lastName) {
             if (count > 0) sql += ', ';
             sql += `last_name = ?`;
             params.push(data.lastName);
@@ -195,7 +194,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(`\n\tEmployee: ${data.employeeID} - UPDATED\n`));
+                res(console.log(`Employee: ${data.employeeID} - UPDATED`));
             });
         });
     },
@@ -231,7 +230,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(`\n\tRole: ${data.roleID} - UPDATED\n`));
+                res(console.log(`Role: ${data.roleID} - UPDATED`));
             });
         });
     },
@@ -246,7 +245,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(`\n\tDepartment: ${data.departmentID} - UPDATED\n`));
+                res(console.log(`Department: ${data.departmentID} - UPDATED`));
             });
         });
     },
@@ -264,7 +263,7 @@ module.exports = {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.log(`\n\tTABLE ${table} : ROW ${data[id]} - DELETED\n`));
+                res(console.log(`TABLE ${table} : ROW ${data[id]} - DELETED`));
             });
         });
     },

@@ -24,7 +24,7 @@ This program requires that the end user already has [`Node.js`](https://nodejs.o
  Before you first run the program you will need to install the `npm` dependencies by typing `npm install`.\
   And then set up the database by connecting to your MySQL server and typing `source db/db.sql`\
  If you would like to load some mock data into the database type `source db/seeds.sql`
- 
+
  The final step is to open `db/connection.js` and edit the `host`, `user`, and `password` strings to reflect the settings required by your MySQL server.
 
 ![Edit your settings](./assets/images/app-screenshot-2.png)
@@ -87,16 +87,16 @@ SOFTWARE.
       ,;;;;;;;O#####OO##############OOO###a,/;;;;'
     .;;//,;;;O####OOO##########OOO####OOO#####a'
    .;;/,;;/;OO##OO#######################OOO####.
-   ;;;/,;;//OO#######OOO###########OOO###########.      ██████╗  ██████╗  ██████╗ ██████╗     
-   `;;//,;,OOO#########OO#########OO##############.    ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗    
- ;.  ``````OOO#####;;;;;;OO#####OO;;;;;;######O####.   ██║  ███╗██║   ██║██║   ██║██║  ██║    
-.;;,       OOO###O;;' ~`;##OOOOO##;' ~`;;O#####OO###   ██║   ██║██║   ██║██║   ██║██║  ██║    
-;;;;    ,  OOO##O;;;,.,;O#########O;,.,;;;O####OO###,  ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝    
-`;;'   ,;; OOO##OO;;;;OOO(???????)OOO;;;;OO####OO###%,  ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝     
+   ;;;/,;;//OO#######OOO###########OOO###########.      ██████╗  ██████╗  ██████╗ ██████╗ 
+   `;;//,;,OOO#########OO#########OO##############.    ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗ 
+ ;.  ``````OOO#####;;;;;;OO#####OO;;;;;;######O####.   ██║  ███╗██║   ██║██║   ██║██║  ██║ 
+.;;,       OOO###O;;' ~`;##OOOOO##;' ~`;;O#####OO###   ██║   ██║██║   ██║██║   ██║██║  ██║ 
+;;;;    ,  OOO##O;;;,.,;O#########O;,.,;;;O####OO###,  ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝ 
+`;;'   ,;; OOO##OO;;;;OOO(???????)OOO;;;;OO####OO###%,  ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝  
    `\  ;;; `OOO#####OOOO##\?????/##OOOO#######O####%O@a   
      \,`;'  `OOO####OOO######;######OOO###########%O###,    ██████╗ ██╗   ██╗███████╗██╗  
      .,\      `OO####OO"#####;#####"OO##########%oO###O#;   ██╔══██╗╚██╗ ██╔╝██╔════╝██║ 
-   ,;;;; \   .::::OO##OOOaaa###aaaOOO#######',;OO##OOO##;,  ██████╔╝ ╚████╔╝ █████╗  ██║                                                                                            
+   ,;;;; \   .::::OO##OOOaaa###aaaOOO#######',;OO##OOO##;,  ██████╔╝ ╚████╔╝ █████╗  ██║ 
   .;;''    \:::.OOaa`###OO#######OO###'::aOO.:;;OO###OO;::. ██╔══██╗  ╚██╔╝  ██╔══╝  ╚═╝
   '       .::\.OO####O#::;;;;;;;;;;;;::O#O@OO.::::::::://:: ██████╔╝   ██║   ███████╗██╗
          .:::.O\########O#O::;;;::O#OO#O###@OO.:;;;;;;;;//:,╚═════╝    ╚═╝   ╚══════╝╚═╝

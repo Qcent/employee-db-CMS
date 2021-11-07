@@ -19,7 +19,9 @@
     },
     "homepage": "https://github.com/Qcent/employee-db-CSM#readme",
     "dependencies": {
+        "ascii-box": "^1.1.2",
         "console.table": "^0.10.0",
+        "fixture-stdout": "^0.2.1",
         "inquirer": "^8.2.0",
         "mysql2": "^2.3.3-rc.0"
     }

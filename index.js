@@ -1,5 +1,34 @@
 const db = require('./db/connection');
 
+// this package can wrap text in a box/border
+const box = require('ascii-box').box;
+
+/* This code will capture the stdout ie console.log() so that I can wrap a border around */
+/** */
+var StdOutFixture = require('fixture-stdout');
+var fixture = new StdOutFixture();
+
+// Keep track of writes so we can check them later..
+//var _writes = [];
+let outputStr = '';
+
+const captureConsole = () => {
+        // Capture a write to stdout
+        fixture.capture(function onWrite(string, encoding, fd) {
+            outputStr += string;
+            /* _writes.push({
+                 string: string,
+                 encoding: encoding,
+                 fd: fd
+             });*/
+            // If you return `false`, you'll prevent the write to the original stream (useful for preventing log output during tests.)
+            return false;
+        });
+    }
+    /*** */
+    /* END OF STDOUT CAPTURE */
+
+
 // import Prompts/Questions object and methods
 const askQuestions = require("./lib/prompts");
 // import database query methods
@@ -13,7 +42,7 @@ let roleList = [];
 let departmentList = [];
 
 // function to console.log the landing page
-const displaySplashScreen = () => console.log(`
+const displaySplashScreen = () => console.log(box(`
                      .,,uod8B8bou,,.
              ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.
          ,=m8BBBBBBBBBBBBBBBRPFT?!||||||||||||||
@@ -44,9 +73,14 @@ const displaySplashScreen = () => console.log(`
                 \`!988888888899fT|!^"'
                   \`!9899fT|!^"'
                     \`!^"'
-`);
+`, {
+    border: 'single-double',
+    color: 'red',
+    minWidth: 153,
+    maxWidth: 153
+}));
 // function to console.log the succesfull connection to the mysql databse
-const displayConnected = () => console.log(`
+const displayConnected = () => console.log(box(`
                      .,,uod8B8bou,,.
              ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.
          ,=m8BBBBBBBBBBBBBBBRPFT?!||||||||||||||
@@ -77,12 +111,18 @@ const displayConnected = () => console.log(`
                 \`!988888888899fT|!^"'
                   \`!9899fT|!^"'
                     \`!^"'
-`);
+`, {
+    border: 'round',
+    color: 'green',
+    padding: 4,
+    minWidth: 153,
+    maxWidth: 153
+}));
 
 // function that console.logs the exit screen
 const displayGoodBye = () => {
-
-    console.log(`
+    console.clear();
+    console.log(box(`
                                      .,;;;;;;;,.
                                    ,;;;;;;;,/;;;;
                   .,aa###########@a;;;;;/;;;,//;;;
@@ -99,7 +139,7 @@ const displayGoodBye = () => {
    \`\\  ;;; \`OOO#####OOOO##\\?????/##OOOO#######O####%O@a   
      \\,\`;'  \`OOO####OOO######;######OOO###########%O###,    
      .,\\      \`OO####OO"#####;#####"OO##########%oO###O#;   
-   ,;;;; \\   .::::OO##OOOaaa###aaaOOO#######',;OO##OOO##;,                                                                                              
+   ,;;;; \\   .::::OO##OOOaaa###aaaOOO#######',;OO##OOO##;,
   .;;''    \\:::.OOaa\`###OO#######OO###'::aOO.:;;OO###OO;::.
   '       .::\\.OO####O#::;;;;;;;;;;;;::O#O@OO.::::::::://::
          .:::.O\\########O#O::;;;::O#OO#O###@OO.:;;;;;;;;//:,
@@ -121,7 +161,12 @@ const displayGoodBye = () => {
   /%%%%%%/             =:://:::;;:::::::::::::::\\::::::::'
     ''''                 ''''''   ''''''''''''''''\\''''
                                                     \\
-`);
+`, {
+        border: 'round',
+        color: 'cyan',
+        minWidth: 122,
+        maxWidth: 150
+    }));
 };
 // a Promise that resolves when successfully connected to the database
 const makeConnection = () => {
@@ -140,6 +185,18 @@ const makeConnection = () => {
 
 //the Main Loop that generates all table lists then prompts the user for functionality
 const mainLoop = () => {
+    // this chunck of code handles the boxing of the captured console.logs
+    if (outputStr.length) {
+        fixture.release();
+        console.clear();
+        console.log(box(outputStr, {
+            color: 'grey',
+            maxWidth: 122
+        }));
+        outputStr = '';
+    }
+
+
     /* GET LISTS OF TABLES */
     query.getListOfEmployees(db)
         .then(eList => {
@@ -177,33 +234,39 @@ const mainLoop = () => {
 
     .then(() => askQuestions(employeeList, roleList, departmentList, managerList))
         .then(response => {
-            console.clear();
+
+            captureConsole();
 
             //VIEW TABLES
             if (response.primary.match(/View/)) {
                 if (response.primary.match(/Departments/)) {
                     query.viewDepartments(db).then(() => mainLoop()).catch((err) => {
+                        fixture.release();
                         console.log(err);
                         process.exit();
                     });
                 } else if (response.primary.match(/Role/)) {
                     query.viewRoles(db).then(() => mainLoop()).catch((err) => {
+                        fixture.release();
                         console.log(err);
                         process.exit();
                     });
                 } else if (response.primary.match(/Employee/)) {
                     if (response.primary.match(/Manager/)) {
                         query.viewEmployeesByManager(db, response.managerID).then(() => mainLoop()).catch((err) => {
+                            fixture.release();
                             console.log(err);
                             process.exit();
                         });
                     } else if (response.primary.match(/Department/)) {
                         query.viewEmployeesByDepartment(db, response.departmentID).then(() => mainLoop()).catch((err) => {
+                            fixture.release();
                             console.log(err);
                             process.exit();
                         });
                     } else {
                         query.viewEmployees(db).then(() => mainLoop()).catch((err) => {
+                            fixture.release();
                             console.log(err);
                             process.exit();
                         });
@@ -214,16 +277,19 @@ const mainLoop = () => {
             else if (response.primary.match(/Add/)) {
                 if (response.primary.match(/Department/)) {
                     query.addDepartment(db, response.departmentName).then(() => mainLoop()).catch((err) => {
+                        fixture.release();
                         console.log(err);
                         process.exit();
                     });
                 } else if (response.primary.match(/Role/)) {
                     query.addRole(db, response).then(() => mainLoop()).catch((err) => {
+                        fixture.release();
                         console.log(err);
                         process.exit();
                     });
                 } else if (response.primary.match(/Employee/)) {
                     query.addEmployee(db, response).then(() => mainLoop()).catch((err) => {
+                        fixture.release();
                         console.log(err);
                         process.exit();
                     });
@@ -233,16 +299,19 @@ const mainLoop = () => {
             else if (response.primary.match(/Update/)) {
                 if (response.primary.match(/Department/)) {
                     query.updateDepartment(db, response).then(() => mainLoop()).catch((err) => {
+                        fixture.release();
                         console.log(err);
                         process.exit();
                     });
                 } else if (response.primary.match(/Role/)) {
                     query.updateRole(db, response).then(() => mainLoop()).catch((err) => {
+                        fixture.release();
                         console.log(err);
                         process.exit();
                     });
                 } else if (response.primary.match(/Employee/)) {
                     query.updateEmployee(db, response).then(() => mainLoop()).catch((err) => {
+                        fixture.release();
                         console.log(err);
                         process.exit();
                     });
@@ -251,12 +320,14 @@ const mainLoop = () => {
             //DELETE TABLE ROWS
             else if (response.primary.match(/Delete/)) {
                 query.deleteRow(db, response).then(() => mainLoop()).catch((err) => {
+                    fixture.release();
                     console.log(err);
                     process.exit();
                 });
             }
 
             if (response.primary === "Exit") {
+                fixture.release();
                 displayGoodBye();
                 process.exit();
             }

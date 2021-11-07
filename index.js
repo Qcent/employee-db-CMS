@@ -204,8 +204,12 @@ const mainLoop = () => {
             }
             //UPDATE TABLES
             else if (response.primary.match(/Update/)) {
-                if (response.primary.match(/Department/));
-                else if (response.primary.match(/Role/)) {
+                if (response.primary.match(/Department/)) {
+                    query.updateDepartment(db, response).then(() => mainLoop()).catch((err) => {
+                        console.log(err);
+                        process.exit();
+                    });
+                } else if (response.primary.match(/Role/)) {
                     query.updateRole(db, response).then(() => mainLoop()).catch((err) => {
                         console.log(err);
                         process.exit();

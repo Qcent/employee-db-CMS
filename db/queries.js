@@ -187,6 +187,21 @@ module.exports = {
         });
     },
 
+    updateDepartment: (db, data) => {
+        let sql = `UPDATE department SET name = ? WHERE id = ?`;
+        const params = [data.departmentName, data.departmentID];
+
+        return new Promise((res, rej) => {
+
+            db.query(sql, params, (err, rows) => {
+                if (err) {
+                    rej(err.message);
+                }
+                res(console.log(rows));
+            });
+        });
+    },
+
 
     /* SPECIAL METHODS */
 

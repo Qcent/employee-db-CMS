@@ -15,8 +15,7 @@ module.exports = {
 
     viewRoles: (db) => {
         return new Promise((res, rej) => {
-            const sql = `SELECT role.id, role.title, role.salary, department.name 
-            AS department
+            const sql = `SELECT role.id, role.title, CONCAT('$', FORMAT(role.salary,0)) AS salary, department.name AS department
             FROM role 
             LEFT JOIN department 
             ON role.department_id = department.id`;
@@ -38,7 +37,7 @@ module.exports = {
             e.last_name, 
             role.title AS job_title, 
             department.name AS department,
-            role.salary, 
+            CONCAT('$', FORMAT(role.salary,0)) AS salary,
             IF( e.manager_id , CONCAT_WS(" ", manager.first_name, manager.last_name), e.manager_id ) AS manager
            
             FROM employee e
@@ -66,7 +65,7 @@ module.exports = {
     viewEmployeesByManager: (db, managerID) => {
         return new Promise((res, rej) => {
             const sql = `
-            SELECT e.id, e.first_name, e.last_name, role.title AS job_title, department.name AS department,  role.salary, 
+            SELECT e.id, e.first_name, e.last_name, role.title AS job_title, department.name AS department,  CONCAT('$', FORMAT(role.salary,0)) AS salary, 
             CONCAT_WS(" ", manager.first_name, manager.last_name) AS manager
 
             FROM employee e
@@ -87,37 +86,29 @@ module.exports = {
     },
 
     viewEmployeesByDepartment: (db, departmentID) => {
-        console.log("BY Department")
         return new Promise((res, rej) => {
             const sql = `
-            SELECT  e.id, 
-            e.first_name, 
-            e.last_name, 
-            role.title AS job_title, 
-            department.name AS department,
-            role.salary, 
+            SELECT e.id, e.first_name, e.last_name, role.title AS job_title, department.name AS department,  CONCAT('$', FORMAT(role.salary,0)) AS salary, 
             IF( e.manager_id , CONCAT_WS(" ", manager.first_name, manager.last_name), e.manager_id ) AS manager
-           
+
             FROM employee e
 
-            LEFT JOIN role 
-                ON e.role_id = role.id
-            LEFT JOIN department 
-                ON role.department_id  = department.id 
-                AND role.department_id = '${departmentID}'
-            LEFT JOIN employee manager
-                ON e.manager_id = manager.id
-                OR e.manager_id = null
-                
-
-            ORDER BY e.id
+            JOIN role ON e.role_id = role.id
+            JOIN department ON role.department_id  = department.id 
+            LEFT JOIN employee manager ON e.manager_id = manager.id OR e.manager_id = null
+            WHERE role.department_id = ${departmentID}
+            
+            UNION ALL
+            SELECT ' ' id, ' ' first_name, ' ' last_name,  ' ' job_title, 'Total Budget' department, CONCAT('$', FORMAT(SUM(salary),0)), ' ' manager
+            FROM role
+            WHERE role.department_id = ${departmentID}
             `;
 
             db.query(sql, (err, rows) => {
                 if (err) {
                     rej(err.message);
                 }
-                res(console.table(rows));
+                res(console.table("Employees in " + rows[0].department || '' + " Department", rows));
             });
         });
     },

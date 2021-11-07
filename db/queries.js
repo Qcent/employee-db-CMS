@@ -1,5 +1,4 @@
 const cTable = require('console.table');
-const box = require('ascii-box').box;
 
 module.exports = {
     // VIEW QUERIES

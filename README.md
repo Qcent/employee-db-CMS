@@ -6,6 +6,10 @@
 ## Description
 Manage your Employee Database with this handy CLI program written for Node.js.  
 
+Watch the Demo Video
+
+[![Employee CMS Demo Video](./assets/images/app-demo-screenshot.png)](https://drive.google.com/file/d/1ud1KZ_CNDARp5RbqzryCK4uefCp-nGS0/view?usp=sharing "Employee CMS Demo Video")
+
 ## Table of Contents
 
 * [Description](#description)
@@ -45,6 +49,7 @@ As well as [Scarecrow](https://www.incredibleart.org/links/ascii/ScarecrowGifGal
 
 Let's not forget the ASCII font man, [Pat Gillespie](http://patorjk.com/) and his amazing [ASCII font generating tool](https://patorjk.com/software/taag/)
 
+Last minute Shout Out to [Mike McNeil](https://github.com/mikermcneil) author of ['fixture-stdout](https://github.com/balderdashy/fixture-stdout), [bahmutov](https://github.com/bahmutov) for the [`console.table`](https://github.com/bahmutov/console.table) package, and [pp3nd3x](https://github.com/pp3nd3x) for creating [`ascii-box`](https://github.com/pp3nd3x/node-ascii-box). The three of which I combined to be able to wrap the output tables in a nice border.
 
 ## Questions
 
